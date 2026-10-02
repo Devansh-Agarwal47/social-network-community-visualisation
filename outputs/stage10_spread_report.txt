@@ -1,0 +1,52 @@
+STAGE 10 SPREAD SIMULATION REPORT
+==========================================================================================
+Network: 1000 users, 3897 friendships
+
+A) MARKETING: which 5 users should post first?  (spread probability p = 0.12, 300 random runs each)
+   top bridges        reaches  312.4 users  (+/- 3.5)   = 31.2% of the network   [users with most friends OUTSIDE their own community]
+   one per community  reaches  312.1 users  (+/- 3.4)   = 31.2% of the network   [the most connected user of each community]
+   top degree         reaches  304.1 users  (+/- 3.8)   = 30.4% of the network   [the users with most friends]
+   random             reaches  255.9 users  (+/- 13.1)   = 25.6% of the network   [random users]
+   -> five hubs reach 1.2x as many users as five random users.
+
+   Effect of the spread probability p (5 top-degree seeds):
+      p = 0.02  ->   17.2 users ( 1.7%)
+      p = 0.05  ->   46.8 users ( 4.7%)
+      p = 0.08  ->  123.5 users (12.4%)
+      p = 0.12  ->  300.1 users (30.0%)
+      p = 0.16  ->  462.4 users (46.2%)
+      p = 0.2   ->  589.5 users (59.0%)
+      p = 0.3   ->  799.7 users (80.0%)
+   -> a small rise in p makes a huge difference: this is the 'tipping point' of viral content.
+
+   One example run (5 top-degree seeds, p = 0.12): users reached per community
+      C1          88 of 237
+      C2          62 of 196
+      C3          54 of 168
+      C4          55 of 154
+      C5          56 of 138
+      C6          22 of  97
+      Isolated     0 of  10
+      finished in 15 rounds, 337 users reached
+
+B) FAKE NEWS: a rumour starts at a random user (p = 0.12). Average users reached if we block k users first:
+   blocked k     random users      top degree     top bridges
+   0                     81.1            81.1            81.1
+   5                     81.4            28.6            48.1
+   10                    77.7             8.2            24.3
+   20                    67.4             2.6             2.6
+   40                    51.1             2.1             2.5
+   -> blocking the 40 top degree users cuts the rumour from 81 to 2 users; blocking 40 random users only gets it to 51.
+   Why hubs matter: with no blocking, 68% of rumours stay under 15 users, but the 31% that reach 100+ users
+   cause 98% of all spreading. Those big outbreaks are the ones that get through a hub; removing hubs removes them.
+
+--- VALIDATION
+  PASS  p = 0: only the seeds are reached
+  PASS  p = 1: everybody in the seed's connected group is reached
+  PASS  nobody is reached twice
+  PASS  same random seed gives the same run
+  PASS  reach grows with p
+  PASS  blocked users are never reached
+  PASS  hubs beat random seeds (the confidence intervals do not overlap)
+  PASS  blocking hubs reduces the spread more than blocking random users
+  PASS  k = 0 gives the same baseline for all blocking methods

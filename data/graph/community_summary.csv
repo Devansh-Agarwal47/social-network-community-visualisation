@@ -1,0 +1,7 @@
+community,users,main_interest,interest_share_%,main_city,avg_age,friendships_inside,friendships_leaving,inside_share_%,density_inside,top_user,top_user_degree
+C1,237,Tech,99.2,Jaipur,26.2,973,282,87.3,0.0348,ira_shah53,110
+C2,196,Sports,100.0,Delhi,27.1,692,257,84.3,0.0362,rahul_iyer18,95
+C3,168,Music,97.6,Mumbai,25.6,509,227,81.8,0.0363,nisha_roy34,87
+C4,154,Food,92.2,Bengaluru,26.5,410,249,76.7,0.0348,karan_chopra82,82
+C5,138,Travel,94.2,Kolkata,26.3,388,225,77.5,0.041,nikhil_das55,76
+C6,97,Fashion,89.7,Chennai,27.0,211,188,69.2,0.0453,rahul_nair60,62

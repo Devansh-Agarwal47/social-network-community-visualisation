@@ -1,0 +1,322 @@
+table,record_id,column,anomaly_type,detail
+users,U0720,age,missing_value,
+users,U0905,age,missing_value,
+users,U0582,age,missing_value,
+users,U0796,age,missing_value,
+users,U0147,age,missing_value,
+users,U0919,age,missing_value,
+users,U0459,age,missing_value,
+users,U0052,age,missing_value,
+users,U0224,city,missing_value,
+users,U0429,city,missing_value,
+users,U0440,city,missing_value,
+users,U0001,city,missing_value,
+users,U0934,city,missing_value,
+users,U0476,city,missing_value,
+users,U0597,email,missing_value,
+users,U0186,email,missing_value,
+users,U0554,email,missing_value,
+users,U0218,email,missing_value,
+users,U0386,age,invalid_value,age=-5
+users,U0523,age,invalid_value,age=-5
+users,U0638,age,invalid_value,age=-5
+users,U0662,age,invalid_value,age=0
+users,U0271,city,inconsistent_format,'Pune' -> ' Pune'
+users,U0768,city,inconsistent_format,'Jaipur' -> 'JAIPUR'
+users,U0469,city,inconsistent_format,'Delhi' -> 'Delhi '
+users,U0051,city,inconsistent_format,'Chennai' -> ' Chennai'
+users,U0362,city,inconsistent_format,'Pune' -> 'pune'
+users,U0653,city,inconsistent_format,'Jaipur' -> 'jaipur'
+users,U0920,city,inconsistent_format,'Chennai' -> 'Chennai '
+users,U0119,city,inconsistent_format,'Kolkata' -> ' Kolkata'
+users,U0481,joined_date,inconsistent_format,'2023-08-05' -> '05/08/2023'
+users,U0039,joined_date,inconsistent_format,"'2022-03-22' -> 'March 22, 2022'"
+users,U0533,joined_date,inconsistent_format,"'2019-08-01' -> 'August 01, 2019'"
+users,U0704,joined_date,inconsistent_format,"'2022-12-31' -> 'December 31, 2022'"
+users,U0637,joined_date,inconsistent_format,'2019-10-13' -> '13/10/2019'
+users,U0311,(whole row),duplicate_row,
+users,U0254,(whole row),duplicate_row,
+users,U0034,(whole row),duplicate_row,
+users,U0014,(whole row),duplicate_row,
+users,U0994,(whole row),duplicate_row,
+users,U0660,(whole row),duplicate_row,
+users,U0155,(whole row),duplicate_row,
+users,U0596,(whole row),duplicate_row,
+users,U0029,(whole row),duplicate_row,
+users,U0898,(whole row),duplicate_row,
+connections,C03697,user_id_2,self_connection,
+connections,C03490,user_id_2,self_connection,
+connections,C00949,user_id_2,self_connection,
+connections,C01987,user_id_2,self_connection,
+connections,C02250,user_id_2,self_connection,
+connections,C03384,user_id_2,self_connection,
+connections,C00088,user_id_2,self_connection,
+connections,C01578,user_id_2,self_connection,
+connections,C01373,user_id_2,self_connection,
+connections,C01826,user_id_2,self_connection,
+connections,C01925,user_id_2,self_connection,
+connections,C00736,user_id_2,self_connection,
+connections,C02963,user_id_2,self_connection,
+connections,C02480,user_id_2,self_connection,
+connections,C02399,user_id_2,self_connection,
+connections,C02240,user_id_2,self_connection,
+connections,C01664,user_id_2,self_connection,
+connections,C01085,user_id_2,self_connection,
+connections,C03446,user_id_2,self_connection,
+connections,C03204,user_id_2,self_connection,
+connections,C02706,user_id_2,unknown_user,U7643
+connections,C01157,user_id_2,unknown_user,U7764
+connections,C00339,user_id_2,unknown_user,U5893
+connections,C00143,user_id_2,unknown_user,U6391
+connections,C03551,user_id_2,unknown_user,U7124
+connections,C01048,user_id_2,unknown_user,U7852
+connections,C03671,user_id_2,unknown_user,U5179
+connections,C03705,user_id_2,unknown_user,U7627
+connections,C02977,user_id_2,unknown_user,U6551
+connections,C01142,user_id_2,unknown_user,U9367
+connections,C03031,user_id_2,unknown_user,U6164
+connections,C01827,user_id_2,unknown_user,U6469
+connections,C01475,user_id_2,unknown_user,U7617
+connections,C02989,user_id_2,unknown_user,U9101
+connections,C02941,user_id_2,unknown_user,U8380
+connections,C02364,user_id_2,unknown_user,U5017
+connections,C01380,user_id_2,unknown_user,U6221
+connections,C02642,user_id_2,unknown_user,U5505
+connections,C01684,user_id_2,unknown_user,U9633
+connections,C02256,user_id_2,unknown_user,U9480
+connections,C02815,user_id_2,unknown_user,U7881
+connections,C00881,user_id_2,unknown_user,U8195
+connections,C01103,user_id_2,unknown_user,U9272
+connections,C01406,user_id_2,unknown_user,U7634
+connections,C02244,connected_on,missing_value,
+connections,C01757,connected_on,missing_value,
+connections,C01982,connected_on,missing_value,
+connections,C03440,connected_on,missing_value,
+connections,C01980,connected_on,missing_value,
+connections,C00604,connected_on,missing_value,
+connections,C00748,connected_on,missing_value,
+connections,C01667,connected_on,missing_value,
+connections,C00265,connected_on,missing_value,
+connections,C02344,connected_on,missing_value,
+connections,C01810,connected_on,missing_value,
+connections,C00390,connected_on,missing_value,
+connections,C02507,connected_on,missing_value,
+connections,C01066,connected_on,missing_value,
+connections,C00404,connected_on,missing_value,
+connections,C02577,connected_on,missing_value,
+connections,C01462,connected_on,missing_value,
+connections,C01645,connected_on,missing_value,
+connections,C03119,connected_on,missing_value,
+connections,C03828,connected_on,missing_value,
+connections,C01914,connected_on,date_before_accounts_existed,2025-01-07
+connections,C01128,connected_on,date_before_accounts_existed,2024-04-19
+connections,C03686,connected_on,date_before_accounts_existed,2023-11-20
+connections,C02722,connected_on,date_before_accounts_existed,2022-11-30
+connections,C00807,connected_on,date_before_accounts_existed,2022-07-10
+connections,C01040,connected_on,date_before_accounts_existed,2019-12-25
+connections,C02328,connected_on,date_before_accounts_existed,2024-09-10
+connections,C00537,connected_on,date_before_accounts_existed,2024-04-13
+connections,C03206,connected_on,date_before_accounts_existed,2023-01-30
+connections,C03195,connected_on,date_before_accounts_existed,2021-08-15
+connections,C02813,connected_on,date_before_accounts_existed,2024-01-11
+connections,C02035,connected_on,date_before_accounts_existed,2023-02-17
+connections,C01985,connected_on,date_before_accounts_existed,2025-02-24
+connections,C01843,connected_on,date_before_accounts_existed,2021-08-17
+connections,C03736,connected_on,date_before_accounts_existed,2023-12-02
+connections,C02717,connected_on,date_before_accounts_existed,2025-02-08
+connections,C01217,(whole row),duplicate_row,
+connections,C03846,(whole row),duplicate_row,
+connections,C03054,(whole row),duplicate_row,
+connections,C00361,(whole row),duplicate_row,
+connections,C02213,(whole row),duplicate_row,
+connections,C00464,(whole row),duplicate_row,
+connections,C02007,(whole row),duplicate_row,
+connections,C00722,(whole row),duplicate_row,
+connections,C01803,(whole row),duplicate_row,
+connections,C02519,(whole row),duplicate_row,
+connections,C02331,(whole row),duplicate_row,
+connections,C01336,(whole row),duplicate_row,
+connections,C03295,(whole row),duplicate_row,
+connections,C01497,(whole row),duplicate_row,
+connections,C02161,(whole row),duplicate_row,
+connections,C01612,(whole row),duplicate_row,
+connections,C00084,(whole row),duplicate_row,
+connections,C03149,(whole row),duplicate_row,
+connections,C03664,(whole row),duplicate_row,
+connections,C03731,(whole row),duplicate_row,
+connections,C02928,(whole row),duplicate_row,
+connections,C02550,(whole row),duplicate_row,
+connections,C02287,(whole row),duplicate_row,
+connections,C02211,(whole row),duplicate_row,
+connections,C03668,(whole row),duplicate_row,
+connections,C00674,(whole row),duplicate_row,
+connections,C00109,(whole row),duplicate_row,
+connections,C03107,(whole row),duplicate_row,
+connections,C00121,(whole row),duplicate_row,
+connections,C00465,(whole row),duplicate_row,
+connections,C02632,(whole row),duplicate_row,
+connections,C00249,(whole row),duplicate_row,
+connections,C01180,(whole row),duplicate_row,
+connections,C03817,(whole row),duplicate_row,
+connections,C01891,(whole row),duplicate_row,
+connections,C00634,(whole row),duplicate_row,
+connections,C03064,(whole row),duplicate_row,
+connections,C00513,(whole row),duplicate_row,
+connections,C00543,(whole row),duplicate_row,
+connections,C01137,(whole row),duplicate_row,
+connections,C00632,(whole row),duplicate_row,
+connections,C02097,(whole row),duplicate_row,
+connections,C01571,(whole row),duplicate_row,
+connections,C03942,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03943,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03944,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03945,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03946,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03947,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03948,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03949,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03950,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03951,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03952,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03953,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03954,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03955,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03956,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03957,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03958,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03959,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03960,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03961,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03962,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03963,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03964,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+connections,C03965,user_id_1/user_id_2,reversed_duplicate,same friendship written the other way round
+posts,P00298,text,missing_value,
+posts,P02289,text,missing_value,
+posts,P02422,text,missing_value,
+posts,P00737,text,missing_value,
+posts,P02251,text,missing_value,
+posts,P00040,text,missing_value,
+posts,P02364,text,missing_value,
+posts,P00434,text,missing_value,
+posts,P01894,text,missing_value,
+posts,P02950,text,missing_value,
+posts,P02141,text,missing_value,
+posts,P02076,text,missing_value,
+posts,P01730,text,missing_value,
+posts,P00329,text,missing_value,
+posts,P00690,text,missing_value,
+posts,P01400,text,missing_value,
+posts,P00119,text,missing_value,
+posts,P02327,text,missing_value,
+posts,P00182,text,missing_value,
+posts,P01967,text,missing_value,
+posts,P01634,text,missing_value,
+posts,P02579,text,missing_value,
+posts,P02049,text,missing_value,
+posts,P01107,text,missing_value,
+posts,P02899,text,missing_value,
+posts,P02059,text,missing_value,
+posts,P03228,text,missing_value,
+posts,P02321,text,missing_value,
+posts,P00168,text,missing_value,
+posts,P00230,text,missing_value,
+posts,P02451,text,missing_value,
+posts,P00941,text,missing_value,
+posts,P01042,text,missing_value,
+posts,P03242,text,missing_value,
+posts,P02570,likes,invalid_value,likes=-21
+posts,P02500,likes,invalid_value,likes=-18
+posts,P02797,likes,invalid_value,likes=-40
+posts,P00844,likes,invalid_value,likes=-23
+posts,P01687,likes,invalid_value,likes=-26
+posts,P00246,likes,invalid_value,likes=-45
+posts,P03085,likes,invalid_value,likes=-30
+posts,P02585,likes,invalid_value,likes=-46
+posts,P02467,likes,invalid_value,likes=-36
+posts,P01969,likes,invalid_value,likes=-22
+posts,P00193,likes,invalid_value,likes=-17
+posts,P00532,likes,invalid_value,likes=-48
+posts,P03121,likes,invalid_value,likes=-11
+posts,P00934,likes,invalid_value,likes=-34
+posts,P03169,likes,invalid_value,likes=-21
+posts,P02127,likes,invalid_value,likes=-21
+posts,P01413,likes,invalid_value,likes=-44
+posts,P03251,user_id,unknown_user,U7281
+posts,P01277,user_id,unknown_user,U9007
+posts,P00523,user_id,unknown_user,U7120
+posts,P01874,user_id,unknown_user,U8566
+posts,P02225,user_id,unknown_user,U7819
+posts,P02568,user_id,unknown_user,U5957
+posts,P02665,user_id,unknown_user,U7760
+posts,P03225,user_id,unknown_user,U9673
+posts,P02014,user_id,unknown_user,U9730
+posts,P00859,user_id,unknown_user,U6851
+posts,P00169,user_id,unknown_user,U5801
+posts,P01947,user_id,unknown_user,U9921
+posts,P01823,user_id,unknown_user,U7002
+posts,P01209,user_id,unknown_user,U7920
+posts,P03206,user_id,unknown_user,U5202
+posts,P02664,user_id,unknown_user,U7377
+posts,P02017,user_id,unknown_user,U8888
+posts,P02334,posted_at,date_before_accounts_existed,2024-09-17 00:00:00
+posts,P02016,posted_at,date_before_accounts_existed,2022-09-22 00:00:00
+posts,P02509,posted_at,date_before_accounts_existed,2023-10-07 00:00:00
+posts,P01480,posted_at,date_before_accounts_existed,2025-03-29 00:00:00
+posts,P03281,posted_at,date_before_accounts_existed,2019-07-29 00:00:00
+posts,P02121,posted_at,date_before_accounts_existed,2017-11-18 00:00:00
+posts,P03366,posted_at,date_before_accounts_existed,2020-10-29 00:00:00
+posts,P01469,posted_at,date_before_accounts_existed,2018-05-18 00:00:00
+posts,P03023,posted_at,date_before_accounts_existed,2023-08-05 00:00:00
+posts,P00664,posted_at,date_before_accounts_existed,2019-06-21 00:00:00
+posts,P00477,posted_at,date_before_accounts_existed,2022-05-02 00:00:00
+posts,P01017,posted_at,date_before_accounts_existed,2023-12-22 00:00:00
+posts,P02892,posted_at,date_before_accounts_existed,2024-03-18 00:00:00
+posts,P02661,posted_at,date_before_accounts_existed,2020-04-20 00:00:00
+posts,P01250,posted_at,date_before_accounts_existed,2018-05-31 00:00:00
+posts,P01521,posted_at,date_before_accounts_existed,2020-01-28 00:00:00
+posts,P00125,posted_at,date_before_accounts_existed,2020-12-23 00:00:00
+posts,P00649,posted_at,date_in_future,2026-12-27 00:00:00
+posts,P00855,posted_at,date_in_future,2027-10-09 00:00:00
+posts,P01508,posted_at,date_in_future,2027-06-13 00:00:00
+posts,P02834,posted_at,date_in_future,2027-02-25 00:00:00
+posts,P03199,posted_at,date_in_future,2028-04-20 00:00:00
+posts,P01827,posted_at,date_in_future,2027-09-12 00:00:00
+posts,P03099,posted_at,date_in_future,2027-02-07 00:00:00
+posts,P00350,posted_at,date_in_future,2028-04-01 00:00:00
+posts,P01103,posted_at,date_in_future,2027-02-11 00:00:00
+posts,P00800,posted_at,date_in_future,2027-11-07 00:00:00
+posts,P00683,(whole row),duplicate_row,
+posts,P03173,(whole row),duplicate_row,
+posts,P00485,(whole row),duplicate_row,
+posts,P02399,(whole row),duplicate_row,
+posts,P02090,(whole row),duplicate_row,
+posts,P00956,(whole row),duplicate_row,
+posts,P02243,(whole row),duplicate_row,
+posts,P00343,(whole row),duplicate_row,
+posts,P03065,(whole row),duplicate_row,
+posts,P02450,(whole row),duplicate_row,
+posts,P02731,(whole row),duplicate_row,
+posts,P02792,(whole row),duplicate_row,
+posts,P01183,(whole row),duplicate_row,
+posts,P01461,(whole row),duplicate_row,
+posts,P00621,(whole row),duplicate_row,
+posts,P00233,(whole row),duplicate_row,
+posts,P03211,(whole row),duplicate_row,
+posts,P03148,(whole row),duplicate_row,
+posts,P03054,(whole row),duplicate_row,
+posts,P01846,(whole row),duplicate_row,
+posts,P01499,(whole row),duplicate_row,
+posts,P02890,(whole row),duplicate_row,
+posts,P00339,(whole row),duplicate_row,
+posts,P01295,(whole row),duplicate_row,
+posts,P02742,(whole row),duplicate_row,
+posts,P02684,(whole row),duplicate_row,
+posts,P02278,(whole row),duplicate_row,
+posts,P02255,(whole row),duplicate_row,
+posts,P00860,(whole row),duplicate_row,
+posts,P01146,(whole row),duplicate_row,
+posts,P00459,(whole row),duplicate_row,
+posts,P00395,(whole row),duplicate_row,
+posts,P01319,(whole row),duplicate_row,
+posts,P01857,(whole row),duplicate_row,

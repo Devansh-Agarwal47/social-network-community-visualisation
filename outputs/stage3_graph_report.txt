@@ -1,0 +1,122 @@
+STAGE 3 GRAPH REPORT
+==========================================================================================
+Graph built: 1000 users (vertices), 3897 friendships (edges)
+
+--- A. BASIC FACTS
+  users (vertices)                                               1000
+  friendships (edges)                                            3897
+  maximum possible edges  n(n-1)/2                               499500
+  density  (edges / max possible)                                0.0078
+  average degree  (2m / n)                                       7.79
+  median degree                                                  6.0
+  highest degree                                                 110
+  lowest degree                                                  0
+  isolated users (degree 0)                                      10
+  pendent users (degree 1)                                       16
+  edges in the complement graph  (max - m)                       495603
+  connected components                                           11
+  users in the biggest (giant) component                         990
+  share of users in the giant component                          99.0%
+  diameter of giant component (longest shortest path, hops)      6
+  average shortest path in giant component (hops)                3.26
+  global clustering (are my friends friends with each other?)    0.042
+
+  Reading: density is tiny because a real person knows only a small part of everyone.
+  Reading: about 3 hops between almost any two users is the 'small-world' effect. Clustering is low here (0.04), so this
+           network has hubs and communities but few tight friend triangles; Stage 4 will show the communities.
+
+--- B. MOST CONNECTED USERS (top 10 by number of friends)
+               username       city interest account_type  degree  pagerank  betweenness
+user_id                                                                                
+U0040        ira_shah53     Jaipur     Tech     personal     110    0.0113       0.0833
+U0254      aisha_shah82     Jaipur     Tech     personal     107    0.0109       0.0824
+U0247       harsh_rao50      Delhi     Tech     personal     104    0.0107       0.0711
+U0867      rahul_iyer18      Delhi   Sports      creator      95    0.0104       0.0703
+U0507     ishaan_jain19      Delhi   Sports      creator      95    0.0107       0.0670
+U0573    rohan_pillai64    Chennai   Sports      creator      91    0.0099       0.0615
+U0996       nisha_roy34  Hyderabad    Music     personal      87    0.0101       0.0919
+U0964     tara_sharma56     Mumbai    Music     personal      84    0.0100       0.0570
+U0756    ishaan_joshi27     Mumbai    Music     personal      83    0.0097       0.0556
+U0111    karan_chopra82  Bengaluru     Food     personal      82    0.0098       0.0669
+
+  Top 10 by PageRank (importance, not just friend count):
+               username interest  degree  pagerank
+user_id                                           
+U0040        ira_shah53     Tech     110    0.0113
+U0254      aisha_shah82     Tech     107    0.0109
+U0247       harsh_rao50     Tech     104    0.0107
+U0507     ishaan_jain19   Sports      95    0.0107
+U0867      rahul_iyer18   Sports      95    0.0104
+U0996       nisha_roy34    Music      87    0.0101
+U0964     tara_sharma56    Music      84    0.0100
+U0573    rohan_pillai64   Sports      91    0.0099
+U0111    karan_chopra82     Food      82    0.0098
+U0756    ishaan_joshi27    Music      83    0.0097
+
+  Top 10 'bridges' by betweenness (users connecting different parts of the network):
+               username interest  degree  betweenness
+user_id                                              
+U0996       nisha_roy34    Music      87       0.0919
+U0040        ira_shah53     Tech     110       0.0833
+U0254      aisha_shah82     Tech     107       0.0824
+U0247       harsh_rao50     Tech     104       0.0711
+U0867      rahul_iyer18   Sports      95       0.0703
+U0507     ishaan_jain19   Sports      95       0.0670
+U0111    karan_chopra82     Food      82       0.0669
+U0573    rohan_pillai64   Sports      91       0.0615
+U0025       divya_rao22     Food      80       0.0606
+U0528     rajat_patel95  Fashion      62       0.0589
+
+--- C. ISOLATED AND SMALL COMPONENTS
+  Isolated users (no friends): 10  -> U0906, U0930, U0924, U0304, U0520, U0543, U0397, U0553, U0012, U0172
+  Component sizes (largest first): [990, 1, 1, 1, 1, 1, 1, 1, 1, 1] ...
+  Note: isolated users are real accounts. Community detection (Stage 4) will treat them as their own 'group of one'.
+
+--- D. DO FRIENDS SHARE INTERESTS?  (homophily)
+  Friendships between users with the SAME interest: 82.3%
+  If friendships were random we would expect only:   17.9%
+  -> Interest groups are clearly visible in the graph, so community detection in Stage 4 has real structure to find.
+
+  Friendships between interest groups (diagonal = inside a group; a diagonal pair is counted twice):
+user_id_2  Fashion  Food  Music  Sports  Tech  Travel
+user_id_1                                            
+Fashion        446    41     32      33    40      28
+Food            41   846     42      57    54      41
+Music           32    42   1014      51    60      41
+Sports          33    57     51    1386    78      39
+Tech            40    54     60      78  1938      54
+Travel          28    41     41      39    54     782
+
+--- E. AVERAGE DEGREE BY USER TYPE
+              count  mean  max
+account_type                  
+business         40  6.52   12
+creator         152  7.99   95
+personal        808  7.82  110
+
+--- F. AVERAGE DEGREE BY CITY
+           count  mean
+city                  
+Hyderabad     29  8.93
+Delhi        162  8.55
+Jaipur       195  8.28
+Mumbai       153  8.18
+Pune          33  8.03
+Kolkata      122  7.27
+Chennai       88  7.22
+Ahmedabad     40  7.08
+Bengaluru    131  7.00
+Lucknow       41  6.37
+Unknown        6  6.00
+
+--- VALIDATION
+  PASS  vertices = number of rows in users.csv
+  PASS  edges = number of rows in connections.csv (clean: one row per friendship)
+  PASS  handshake lemma: sum of degrees = 2 x edges
+  PASS  edges + complement edges = n(n-1)/2
+  PASS  component sizes add up to n
+  PASS  no self-loops
+  PASS  degree from pandas (counting connections table) = degree from NetworkX
+  PASS  PageRank adds up to 1
+
+Saved /home/claude/social_graph_app/data/graph/node_metrics.csv  (1000 users x 13 columns)

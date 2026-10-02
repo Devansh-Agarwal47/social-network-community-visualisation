@@ -1,0 +1,158 @@
+====================================================================================================
+USERS  (one row per person)
+====================================================================================================
+rows x columns: 1010 x 11
+
+                    dtype  filled  missing  unique                   example
+user_id               str    1010        0    1000                     U0338
+username              str    1010        0    1000              nisha_nair24
+full_name             str    1010        0     685                Nisha Nair
+email                 str    1006        4     996  nisha_nair24@example.com
+age               float64    1002        8      33                      23.0
+city                  str    1004        6      18                    Mumbai
+interest              str    1010        0       6                     Music
+account_type          str    1010        0       3                  personal
+joined_date           str    1010        0     817                2019-06-28
+last_active_date      str    1010        0     643                2025-12-14
+is_verified          bool    1010        0       2                     False
+
+first 3 rows:
+  user_id      username   full_name                     email   age    city interest account_type joined_date last_active_date  is_verified
+0   U0338  nisha_nair24  Nisha Nair  nisha_nair24@example.com  23.0  Mumbai    Music     personal  2019-06-28       2025-12-14        False
+1   U0381   riya_bose51   Riya Bose   riya_bose51@example.com  27.0  Jaipur     Tech     personal  2025-10-21       2026-03-25        False
+2   U0299   karan_shah5  Karan Shah   karan_shah5@example.net  23.0  Jaipur     Tech     personal  2025-01-15       2025-12-29        False
+
+====================================================================================================
+CONNECTIONS  (one row per friendship = one edge)
+====================================================================================================
+rows x columns: 4008 x 5
+
+                   dtype  filled  missing  unique     example
+connection_id        str    4008        0    3965      C03731
+user_id_1            str    4008        0     935       U0336
+user_id_2            str    4008        0     969       U0427
+connected_on         str    3988       20    1357  2025-01-31
+interaction_count  int64    4008        0      17           6
+
+first 3 rows:
+  connection_id user_id_1 user_id_2 connected_on  interaction_count
+0        C03731     U0336     U0427   2025-01-31                  6
+1        C02211     U0963     U0481   2024-12-27                  8
+2        C01149     U0961     U0816   2022-12-28                  7
+
+====================================================================================================
+POSTS  (one row per post)
+====================================================================================================
+rows x columns: 3482 x 8
+
+           dtype  filled  missing  unique                                       example
+post_id      str    3482        0    3448                                        P02013
+user_id      str    3482        0     979                                         U0148
+posted_at    str    3482        0    3448                           2025-06-24 11:19:10
+text         str    3448       34      24  Anyone else excited about this year in tech?
+hashtags     str    3482        0    1202                                       #python
+likes      int64    3482        0      87                                             4
+shares     int64    3482        0      12                                             0
+comments   int64    3482        0      10                                             0
+
+first 3 rows:
+  post_id user_id            posted_at                                          text                  hashtags  likes  shares  comments
+0  P02013   U0148  2025-06-24 11:19:10  Anyone else excited about this year in tech?                   #python      4       0         0
+1  P00506   U0456  2023-05-10 13:10:00                Learning a new song on guitar.  #lofi #bollywood #hiphop     12       0         1
+2  P02025   U0016  2025-10-05 12:51:11                               Today's outfit.     #backpacking #startup     14       2         0
+
+====================================================================================================
+WHAT THE DATA LOOKS LIKE
+====================================================================================================
+users.interest (the hidden 'true' community of each user):
+interest
+Tech       242
+Sports     201
+Music      174
+Food       151
+Travel     142
+Fashion    100
+
+users.account_type:
+account_type
+personal    816
+creator     154
+business     40
+
+users.city (notice the odd spellings at the bottom!):
+city
+Jaipur       194
+Delhi        164
+Mumbai       155
+Bengaluru    132
+Kolkata      122
+Chennai       87
+Lucknow       41
+Ahmedabad     41
+Pune          31
+Hyderabad     29
+NaN            6
+ Kolkata       1
+ Chennai       1
+Delhi          1
+JAIPUR         1
+Chennai        1
+jaipur         1
+ Pune          1
+pune           1
+
+users.age summary (look at min and max):
+count    1002.0
+mean       26.3
+std         6.7
+min        -5.0
+25%        21.2
+50%        26.0
+75%        31.0
+max        49.0
+
+connections.interaction_count summary:
+count    4008.0
+mean        6.2
+std         2.8
+min         1.0
+25%         4.0
+50%         6.0
+75%         8.0
+max        17.0
+
+posts likes / shares / comments summary (look at the minimum of likes):
+        likes  shares  comments
+count  3482.0  3482.0    3482.0
+mean     11.1     0.9       0.6
+std      11.5     1.2       0.9
+min     -48.0     0.0       0.0
+25%       5.0     0.0       0.0
+50%       8.0     1.0       0.0
+75%      14.0     1.0       1.0
+max     265.0    20.0      16.0
+
+====================================================================================================
+SPOTTING PROBLEMS  (Stage 2 will fix them)
+====================================================================================================
+                                                 found by pandas  planted (answer key)  match
+users: duplicate rows                                         10                    10   True
+users: missing age / city / email                             18                    18   True
+users: impossible age (<13 or >100)                            4                     4   True
+users: city not in the standard list                           8                     8   True
+users: joined_date not YYYY-MM-DD                              5                     5   True
+connections: duplicate rows                                   43                    43   True
+connections: user connected to themselves                     20                    20   True
+connections: user id not in users table                       24                    24   True
+connections: missing date                                     20                    20   True
+connections: same friendship written both ways                24                    24   True
+connections: dated before both accounts existed               16                    16   True
+posts: duplicate rows                                         34                    34   True
+posts: missing text                                           34                    34   True
+posts: negative likes                                         17                    17   True
+posts: user id not in users table                             17                    17   True
+posts: posted before the account existed                      17                    17   True
+posts: dated in the future                                    10                    10   True
+
+All 17 checks match the answer key: True
+Problem rows planted: users 45/1010 (4.5%), connections 147/4008 (3.7%), posts 129/3482 (3.7%)

@@ -1,0 +1,45 @@
+STAGE 9 RECOMMENDER REPORT
+==========================================================================================
+Model learned from 990 connected users in 6 communities (C1, C2, C3, C4, C5, C6); 42 hashtags
+
+Leave-one-out test on 990 connected users (each user is hidden from the model, then predicted):
+  accuracy  interest only                                     96.4%
+  accuracy  interest + city + age + account type              96.4%
+  accuracy    + 3 hashtags the user posted                    96.1%
+  accuracy    + 3 people the user knows                       96.4%
+  accuracy    + hashtags + people                             96.4%
+  accuracy  city + age + account type only (no interest)      65.1%
+  accuracy  people only (3 random friends)                    93.6%
+  (guessing the biggest community every time would give 23.9%)
+
+Confidence check (basic profile): temperature 1.5, average log-loss 0.275
+  when the model said 0-60% : right 100% of the time  (16 users)
+  when the model said 60-80% : right 93% of the time  (236 users)
+  when the model said 80-95% : right 97% of the time  (738 users)
+
+DEMO: 24-year-old in Jaipur, interest Tech, uses #python #coding, knows nobody yet
+  predicted community: C1 (100%)
+    C1 Tech      99.6%
+    C4 Food       0.1%
+    C5 Travel     0.1%
+    C6 Fashion    0.1%
+    C2 Sports     0.1%
+    C3 Music      0.0%
+  why: interest -> C1 (2.9); hashtags -> C1 (2.64); city -> C1 (0.72); age -> C1 (0.03); account type -> C1 (0.01)
+  recommended people:
+    ira_shah53         C1  110 friends   popular in C1, also into Tech, also in Jaipur
+    aisha_shah82       C1  107 friends   popular in C1, also into Tech, also in Jaipur
+    ananya_menon6      C1   15 friends   popular in C1, also into Tech, also in Jaipur
+    tejas_roy11        C1   14 friends   popular in C1, also into Tech, also in Jaipur
+    sameer_nair36      C1   14 friends   popular in C1, also into Tech, also in Jaipur
+    tara_menon44       C1   14 friends   popular in C1, also into Tech, also in Jaipur
+    divya_rao22        C4   80 friends   bridge to C4 (30 friends outside their group)   [bridge]
+    karan_chopra82     C4   82 friends   bridge to C4 (29 friends outside their group)   [bridge]
+
+--- VALIDATION
+  PASS  prediction with interest is much better than guessing the biggest community
+  PASS  predictions still work without the interest (city + age + type only beat guessing)
+  PASS  knowing 3 people gives high accuracy
+  PASS  probabilities add up to 1
+  PASS  recommendations never include the user's own contacts or duplicates
+  PASS  invalid input is rejected (age 5)

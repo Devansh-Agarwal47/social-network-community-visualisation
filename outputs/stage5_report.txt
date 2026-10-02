@@ -1,0 +1,159 @@
+STAGE 5 DATABASE REPORT
+==========================================================================================
+Created /home/claude/social_graph_app/data/social.db  (1464 KB)
+  table communities         7 rows
+  table users            1000 rows
+  table connections      3897 rows
+  table posts            3370 rows
+  table post_hashtags    6757 rows
+
+--- Q1. The 10 most connected users, with their community
+SQL: SELECT u.username, u.city, u.interest, u.community_id AS community, u.degree FROM users u ORDER BY u.degree DESC LIMIT 10
+      username      city interest community  degree
+    ira_shah53    Jaipur     Tech        C1     110
+  aisha_shah82    Jaipur     Tech        C1     107
+   harsh_rao50     Delhi     Tech        C1     104
+  rahul_iyer18     Delhi   Sports        C2      95
+ ishaan_jain19     Delhi   Sports        C2      95
+rohan_pillai64   Chennai   Sports        C2      91
+   nisha_roy34 Hyderabad    Music        C3      87
+ tara_sharma56    Mumbai    Music        C3      84
+ishaan_joshi27    Mumbai    Music        C3      83
+karan_chopra82 Bengaluru     Food        C4      82
+
+--- Q2. How big is each community and what is its average age?
+SQL: SELECT community_id, COUNT(*) AS users, ROUND(AVG(age),1) AS avg_age, ROUND(AVG(degree),1) AS avg_friends FROM users GROUP BY community_id ORDER BY users DESC
+community_id  users  avg_age  avg_friends
+          C1    237     26.2          9.4
+          C2    196     27.1          8.4
+          C3    168     25.6          7.4
+          C4    154     26.5          6.9
+          C5    138     26.3          7.3
+          C6     97     27.0          6.3
+    Isolated     10     24.3          0.0
+
+--- Q3. Top 3 hashtags in every community (JOIN of 4 tables + a ranking window function)
+SQL: SELECT community_id, hashtag, uses FROM ( SELECT u.community_id, h.hashtag, COUNT(*) AS uses, ROW_NUMBER() OVER (PARTITION BY u.community_id ORDER BY COUNT(*) DESC, h.hashtag) AS rn FROM post_hashtags h JOIN posts p ON p.post_id = h.post_id JOIN users u ON u.user_id = p.user_id GROUP BY u.community_id, h.hashtag) WHERE rn <= 3 AND community_id <> 'Isolated' ORDER BY community_id, rn
+community_id      hashtag  uses
+          C1     #gadgets   231
+          C1 #datascience   201
+          C1  #opensource   200
+          C2     #cricket   185
+          C2    #football   185
+          C2     #kabaddi   181
+          C3      #hiphop   169
+          C3    #playlist   163
+          C3   #bollywood   149
+          C4        #cafe   137
+          C4      #recipe   129
+          C4        #chai   128
+          C5    #roadtrip   116
+          C5    #heritage   111
+          C5   #mountains   109
+          C6 #streetstyle    80
+          C6       #style    76
+          C6       #denim    72
+
+--- Q4. Most liked 5 posts
+SQL: SELECT p.post_id, u.username, p.likes, p.shares, p.comments, SUBSTR(p.text,1,55) AS text FROM posts p JOIN users u ON u.user_id = p.user_id ORDER BY p.likes DESC LIMIT 5
+post_id         username  likes  shares  comments                                 text
+ P00573    ishaan_jain19    265      20        16      Cannot believe that final over.
+ P00325 kabir_malhotra58    154      14         5       Learning a new song on guitar.
+ P01996      nisha_roy34    142      14         7 Made a new playlist for the weekend.
+ P02288     rahul_iyer18    110      10        10      Cannot believe that final over.
+ P00813    tara_sharma56     98       2         5       Learning a new song on guitar.
+
+--- Q5. Creators vs personal vs business accounts: posts and likes
+SQL: SELECT u.account_type, COUNT(DISTINCT u.user_id) AS users, COUNT(p.post_id) AS posts, ROUND(1.0*COUNT(p.post_id)/COUNT(DISTINCT u.user_id),2) AS posts_per_user, ROUND(AVG(p.likes),2) AS avg_likes FROM users u LEFT JOIN posts p ON p.user_id = u.user_id GROUP BY u.account_type
+account_type  users  posts  posts_per_user  avg_likes
+    business     40    118            2.95      12.03
+     creator    152    869            5.72      11.35
+    personal    808   2383            2.95      11.19
+
+--- Q6. New friendships per year
+SQL: SELECT SUBSTR(connected_on,1,4) AS year, COUNT(*) AS new_friendships FROM connections GROUP BY year ORDER BY year
+year  new_friendships
+2019                2
+2020               26
+2021               73
+2022              186
+2023              342
+2024              614
+2025             1435
+2026             1219
+
+--- Q7. Friends of one user (uses the view 'friendships') -- the query the API will run for /api/users/<id>/friends
+SQL: SELECT f.friend_id, u.username, u.community_id AS community FROM friendships f JOIN users u ON u.user_id = f.friend_id WHERE f.user_id = ? ORDER BY u.username LIMIT 8
+friend_id        username community
+    U0317     aarav_das27        C1
+    U0226 aditya_sharma59        C1
+    U0625 aisha_agarwal24        C1
+    U0010   aisha_bhatt75        C1
+    U0580    aisha_mehta5        C1
+    U0254    aisha_shah82        C1
+    U0514   ananya_menon6        C1
+    U0288  ananya_patel47        C1
+
+--- Q8. Mutual friends of two users (first 10 shown)
+SQL: SELECT a.friend_id, u.username FROM friendships a JOIN friendships b ON a.friend_id = b.friend_id JOIN users u ON u.user_id = a.friend_id WHERE a.user_id = ? AND b.user_id = ? ORDER BY u.username LIMIT 10
+friend_id        username
+    U0230   ananya_shah43
+    U0796    dev_sharma45
+    U0965    divya_jain84
+    U0239    divya_jain97
+    U0148    diya_patel63
+    U0247     harsh_rao50
+    U0646    harsh_shah45
+    U0092      ira_bose68
+    U0969  ishaan_menon23
+    U0549 ishaan_saxena64
+
+--- Q9. 'People you may know' for one user: friends-of-friends they are NOT yet friends with, ranked by mutual friends
+SQL: SELECT u.username, u.community_id AS community, COUNT(*) AS mutual_friends FROM friendships a JOIN friendships b ON b.user_id = a.friend_id JOIN users u ON u.user_id = b.friend_id WHERE a.user_id = ? AND b.friend_id <> a.user_id AND b.friend_id NOT IN (SELECT friend_id FROM friendships WHERE user_id = ?) GROUP BY b.friend_id ORDER BY mutual_friends DESC, u.username LIMIT 5
+      username community  mutual_friends
+ tara_sharma56        C3               4
+  divya_jain98        C3               2
+  kabir_jain19        C3               2
+kavya_pillai23        C3               2
+ nikhil_mehta3        C3               2
+
+--- Q10. Friendships between communities (the numbers behind the network's 'bridges')
+SQL: SELECT a.community_id AS from_community, b.community_id AS to_community, COUNT(*) AS friendships FROM connections c JOIN users a ON a.user_id = c.user_id_1 JOIN users b ON b.user_id = c.user_id_2 WHERE a.community_id < b.community_id GROUP BY 1, 2 ORDER BY friendships DESC LIMIT 8
+from_community to_community  friendships
+            C1           C2           50
+            C1           C3           42
+            C1           C5           39
+            C4           C5           37
+            C4           C6           30
+            C1           C6           29
+            C2           C3           29
+            C2           C4           23
+
+--- Q11. Users with no friends (isolated)
+SQL: SELECT user_id, username, city, interest FROM users WHERE degree = 0 ORDER BY user_id LIMIT 10
+user_id         username      city interest
+  U0012  ananya_chopra22   Chennai  Fashion
+  U0172       ira_khan16    Jaipur    Music
+  U0304     rajat_khan11   Lucknow     Tech
+  U0397    pranav_jain76    Jaipur     Tech
+  U0520    varun_bhatt38    Jaipur     Tech
+  U0543     priya_shah75    Jaipur     Tech
+  U0553     karan_shah39   Lucknow   Sports
+  U0906     varun_iyer74 Hyderabad   Sports
+  U0924 rahul_malhotra87    Mumbai    Music
+  U0930  saanvi_pillai71     Delhi   Sports
+
+--- VALIDATION
+  PASS  row counts equal the clean CSV files
+  PASS  foreign keys: no orphan rows (PRAGMA foreign_key_check)
+  PASS  friendships view has exactly 2 x connections rows
+  PASS  degree stored in users = friends counted by SQL for every user
+  PASS  sum of degrees = 2 x edges (handshake lemma)
+  PASS  community sizes add up to number of users
+  PASS  every user has a community
+  PASS  no missing values in users
+  PASS  database refuses bad data (self-friendship is rejected)
+
+--- TABLE RELATIONSHIPS
+  communities 1 ---- * users 1 ---- * posts 1 ---- * post_hashtags
+                        users * ---- * users   (through the connections table = the graph's edges)

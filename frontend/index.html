@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Network Community Explorer</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ========== LOGIN (demo gate) ========== -->
+<section id="login" class="login hidden">
+  <form id="loginForm" class="login-card" autocomplete="off">
+    <h1>Community Explorer</h1>
+    <p class="muted">Interactive social media community and information-flow visualisation</p>
+    <label>Username <input id="user" value="demo" required></label>
+    <label>Password <input id="pass" type="password" value="graph123" required></label>
+    <button type="submit">Sign in</button>
+    <p id="loginErr" class="err"></p>
+    <p class="muted small">Demo sign-in for the presentation (username <b>demo</b>, password <b>graph123</b>). It is not real security: the check happens in the browser.</p>
+  </form>
+</section>
+
+<!-- ========== APP ========== -->
+<div id="app" class="hidden">
+  <header>
+    <div class="brand">Community Explorer</div>
+    <nav id="tabs">
+      <a href="#dashboard" data-tab="dashboard">Dashboard</a>
+      <a href="#network" data-tab="network">Network</a>
+      <a href="#communities" data-tab="communities">Communities</a>
+      <a href="#users" data-tab="users">Users</a>
+      <a href="#spread" data-tab="spread">Spread</a>
+      <a href="#join" data-tab="join">Join</a>
+    </nav>
+    <div class="who"><span id="whoName"></span> <button id="logout" class="link">Sign out</button></div>
+  </header>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section id="tab-dashboard" class="tab">
+      <div id="kpis" class="kpis"></div>
+      <div class="grid2">
+        <div class="card"><h3>Community sizes</h3><div id="sizeBars"></div></div>
+        <div class="card"><h3>Friendships between communities</h3><p class="muted small">Darker = more friendships. The diagonal is friendships inside a community.</p><div id="matrix"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>10 most connected users</h3><table id="topUsers"></table></div>
+        <div class="card"><h3>Top hashtags <select id="tagCommunity"></select></h3><div id="tagBars"></div></div>
+      </div>
+    </section>
+
+    <!-- NETWORK -->
+    <section id="tab-network" class="tab">
+      <div class="toolbar">
+        <label>Community <select id="netCommunity"></select></label>
+        <label>Min friends <input id="netMin" type="range" min="0" max="40" value="0"><output id="netMinOut">0</output></label>
+        <label>Max users <input id="netLimit" type="range" min="50" max="1000" step="50" value="400"><output id="netLimitOut">400</output></label>
+        <label>Colour by <select id="netColor"><option value="community">community</option><option value="account_type">account type</option></select></label>
+        <label><input id="netGroup" type="checkbox" checked> group by community</label>
+        <input id="netSearch" placeholder="find a user, press Enter" list="none">
+        <span id="netInfo" class="muted small"></span>
+      </div>
+      <div class="toolbar" id="spreadBar">
+        <b>Simulate a post:</b>
+        <label>seeds <select id="spStrategy"><option value="top degree">the most connected users</option><option value="one per community">top user of each community</option>
+          <option value="top bridges">bridge users</option><option value="random">random users</option><option value="selected">the user I clicked</option></select></label>
+        <label>how many <input id="spK" type="range" min="1" max="10" value="5"><output id="spKOut">5</output></label>
+        <label>chance a friend passes it on <input id="spP" type="range" min="0.02" max="0.4" step="0.01" value="0.12"><output id="spPOut">0.12</output></label>
+        <button id="spGo">Start</button> <button id="spClear" class="link">Clear</button>
+        <span id="spInfo" class="muted small"></span>
+      </div>
+      <div class="netwrap">
+        <canvas id="net"></canvas>
+        <div id="legend" class="legend"></div>
+        <div id="tip" class="tip hidden"></div>
+        <button id="fitBtn" class="fit">Fit to screen</button>
+        <p class="hint">Scroll to zoom, drag background to pan, drag a node to move it, hover to highlight friends, click for details.</p>
+      </div>
+    </section>
+
+    <!-- COMMUNITIES -->
+    <section id="tab-communities" class="tab">
+      <div id="commCards" class="cards"></div>
+      <div id="commDetail" class="card hidden"></div>
+    </section>
+
+    <!-- USERS -->
+    <section id="tab-users" class="tab">
+      <div class="toolbar">
+        <input id="uq" placeholder="search name or username">
+        <label>Community <select id="uc"></select></label>
+        <label>Interest <select id="ui"><option value="">all</option></select></label>
+        <label>Sort <select id="us"><option value="degree">most friends</option><option value="name">name</option><option value="age">age</option><option value="joined">joined</option></select></label>
+        <span id="uinfo" class="muted small"></span>
+      </div>
+      <div class="card"><table id="userTable"></table>
+        <div class="pager"><button id="uprev">Previous</button><button id="unext">Next</button></div></div>
+    </section>
+
+    <!-- SPREAD: information flow experiments -->
+    <section id="tab-spread" class="tab">
+      <div class="card" style="margin-bottom:14px">
+        <h3>How does a post travel through the network?</h3>
+        <p class="muted">Model: <b>independent cascade</b>. A few seed users share a post. Every user who receives it gets <b>one chance</b> to pass it to each friend, and succeeds with probability <i>p</i>. It stops when nobody new is reached.</p>
+        <div class="toolbar">
+          <label>seeds (k) <input id="xK" type="range" min="1" max="20" value="5"><output id="xKOut">5</output></label>
+          <label>probability p <input id="xP" type="range" min="0.02" max="0.4" step="0.01" value="0.12"><output id="xPOut">0.12</output></label>
+          <button id="xGo">Run experiments</button> <button id="xAnim" class="link">Animate one on the network</button>
+          <span id="xInfo" class="muted small"></span>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>A) Who should post first? <span class="muted small">(marketing)</span></h3><div id="xBars"></div><p id="xNoteA" class="muted small"></p></div>
+        <div class="card"><h3>B) Block users to stop a rumour <span class="muted small">(fake news)</span></h3><div id="xLines"></div><p id="xNoteB" class="muted small"></p></div>
+      </div>
+    </section>
+
+    <!-- JOIN: new user -> predicted community + people to follow -> saved in the database -->
+    <section id="tab-join" class="tab">
+      <div class="grid2">
+        <form id="joinForm" class="card" autocomplete="off">
+          <h3>Create a new account</h3>
+          <div class="formgrid">
+            <label>Full name <input id="jName" maxlength="60" required></label>
+            <label>Username (optional) <input id="jUser" maxlength="30" placeholder="made from your name"><small id="jUserMsg" class="muted"></small></label>
+            <label>Age <input id="jAge" type="number" min="13" max="100" value="22" required></label>
+            <label>City <select id="jCity"></select></label>
+            <label>Main interest <select id="jInterest"></select></label>
+            <label>Account type <select id="jType"></select></label>
+          </div>
+          <h4>Hashtags you like <span class="muted small">(up to 5, optional)</span></h4>
+          <div id="jTags"></div>
+          <h4>People you already know <span class="muted small">(up to 10, optional)</span></h4>
+          <input id="jFriendQ" placeholder="type a name or username to search">
+          <div id="jFriendRes" class="results"></div>
+          <div id="jFriends" class="chips"></div>
+          <p><button type="submit">Predict my community</button> <span id="jErr" class="err"></span></p>
+          <p class="muted small">Nothing is saved yet. First you see the prediction and recommendations, then you decide.</p>
+        </form>
+        <div id="joinResult" class="card hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PROFILE DRAWER (used by every tab) -->
+  <aside id="drawer" class="drawer hidden">
+    <button id="closeDrawer" class="link close">Close</button>
+    <div id="drawerBody"></div>
+  </aside>
+</div>
+
+<script src="/static/vendor/d3.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

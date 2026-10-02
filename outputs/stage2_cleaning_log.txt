@@ -1,0 +1,63 @@
+STAGE 2 CLEANING LOG
+==============================================================================================================
+raw rows: users 1010, connections 4008, posts 3482
+
+--- USERS ----------------------------------------------------------------------------------------------------
+[users      ] drop exact duplicate rows                                  rows  1010 ->  1000   (removed 10)
+[users      ] joined_date / last_active_date converted to one format   (0 unreadable)
+[users      ] city: 8 spellings normalised, 6 missing filled with 'Unknown'
+[users      ] age: 4 impossible -> missing; 12 missing filled with the median age of the same interest group
+[users      ] columns kept: 10 of 11  (dropped: email, personal data not needed)
+
+--- CONNECTIONS ----------------------------------------------------------------------------------------------
+[connections] drop exact duplicate rows                                  rows  4008 ->  3965   (removed 43)
+[connections] drop self-connections (a user befriending themselves)      rows  3965 ->  3945   (removed 20)
+[connections] drop connections to users that do not exist                rows  3945 ->  3921   (removed 24)
+[connections] drop the same friendship written the other way round       rows  3921 ->  3897   (removed 24)
+[connections] 36 missing/impossible dates set to the day the younger account joined (flag column date_estimated = True)
+[connections] columns kept: 6 (added date_estimated)
+
+--- POSTS ----------------------------------------------------------------------------------------------------
+[posts      ] drop exact duplicate rows                                  rows  3482 ->  3448   (removed 34)
+[posts      ] drop posts written by users that do not exist              rows  3448 ->  3431   (removed 17)
+[posts      ] drop posts with no text (nothing to analyse)               rows  3431 ->  3397   (removed 34)
+[posts      ] drop impossible timestamps (17 before join, 10 in future)  rows  3397 ->  3370   (removed 27)
+[posts      ] likes: 17 negative values replaced with the median (8)
+[posts      ] columns kept: 8
+
+SAVED clean files to /home/claude/social_graph_app/data/clean
+
+VALIDATION
+  PASS  no problem of any kind left (all 15 counts are 0)
+  PASS  user_id unique
+  PASS  no missing values in users
+  PASS  every connection joins two existing users
+  PASS  every connection has user_id_1 < user_id_2 (one edge per friendship)
+  PASS  no repeated friendship
+  PASS  no missing values in connections / posts
+  PASS  likes never negative
+  PASS  every post belongs to an existing user
+  PASS  ages between 13 and 100
+
+PROBLEMS BEFORE vs AFTER
+                                        before  after
+users: duplicate rows                       10      0
+users: missing age                           8      0
+users: impossible age                        4      0
+users: missing / odd city                   14      0
+users: date not YYYY-MM-DD                   5      0
+connections: duplicate rows                 43      0
+connections: self-connection                20      0
+connections: unknown user id                24      0
+connections: both-ways duplicate            24      0
+connections: missing / impossible date      36      0
+posts: duplicate rows                       34      0
+posts: missing text                         34      0
+posts: negative likes                       17      0
+posts: unknown user id                      17      0
+posts: impossible date                      27      0
+
+ANSWER-KEY CHECK (rows expected after removing planted bad rows vs rows we kept)
+  PASS  users: expected 1000, got 1000
+  PASS  connections: expected 3897, got 3897
+  PASS  posts: expected 3370, got 3370
